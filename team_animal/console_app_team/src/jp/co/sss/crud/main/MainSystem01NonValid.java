@@ -104,8 +104,20 @@ public class MainSystem01NonValid {
 
 				case 3:
 					System.out.print("部署ID(1：営業部、2：経理部、3：総務部)を入力してください: ");
-					//TODO 以下に実装する
-
+					/**
+					 * TODO 以下に実装する
+					 */
+					try {
+						String input = br.readLine();
+						int inputDeptId = Integer.parseInt(input);
+						employees = employeeDAO.findByDeptId(inputDeptId);
+						
+						for(Employee emp : employees) {
+							System.out.println(emp);
+						}
+					}catch(Exception e) {
+						e.printStackTrace();
+					}
 					break;
 
 				case 4:
