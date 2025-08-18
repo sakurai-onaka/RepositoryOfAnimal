@@ -71,12 +71,15 @@ public class MainSystem01NonValid {
 				/**
 				 * メニュー番号の入力
 				 */
-				String menuNoStr = br.readLine();
+				String menuNoStr = null;
 				menuNo = Integer.parseInt(menuNoStr);
 
 				/**
 				 * 機能の呼出
 				 */
+				String inputEmpName = null;
+				int inputDeptId = 0;
+				
 				switch (menuNo) {
 				case 1:
 					System.out.println("社員ID\t社員名\t性別\t生年月日\t部署名");
@@ -101,7 +104,7 @@ public class MainSystem01NonValid {
 					/**
 					 * TODO 以下に実装する
 					 */
-					String inputEmpName = br.readLine();
+					inputEmpName = br.readLine();
 					System.out.println("社員ID\t社員名\t性別\t生年月日\t部署名");
 					try {
 						employees = employeeDAO.findByEmployeeName(inputEmpName);
@@ -122,7 +125,7 @@ public class MainSystem01NonValid {
 					 */
 					try {
 						String input = br.readLine();
-						int inputDeptId = Integer.parseInt(input);
+						inputDeptId = Integer.parseInt(input);
 						employees = employeeDAO.findByDeptId(inputDeptId);
 						
 						for(Employee emp : employees) {
@@ -135,11 +138,16 @@ public class MainSystem01NonValid {
 
 				case 4:
 					//TODO 以下に実装する
-
+					Employee emp = new Employee();
 					System.out.print("社員名:");
+					emp.setEmpName(br.readLine());
 					System.out.print("性別(1:男性, 2:女性):");
+					emp.setGender(Integer.parseInt(br.readLine()));
 					System.out.print("生年月日(西暦年/月/日):");
+					inputDate = br.readLine();
 					System.out.print("部署ID(1:営業部、2:経理部、3:総務部):");
+					inputDeptId = Integer.parseInt(br.readLine());
+					
 
 					break;
 
