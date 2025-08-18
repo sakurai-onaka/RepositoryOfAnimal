@@ -36,25 +36,25 @@ public class EmployeeDAO {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
-		
+
 		try {
 			connection = DBManager.getConnection();
 			preparedStatement = connection.prepareStatement(SQL_FIND_ALL);
 			resultSet = preparedStatement.executeQuery();
-			
-				while(resultSet.next()) {
-					employee = new Employee();
-					employee.setEmpId(resultSet.getInt("emp_id"));
-					employee.setEmpName(resultSet.getString("emp_name"));
-					employee.setGender(resultSet.getInt("gender"));
-					employee.setBirthday(resultSet.getString("birthday"));
-					employee.setDepartment(new Department(null, resultSet.getString("dept_name")));
-					
-					employees.add(employee);
-				}
-		}catch(Exception e) {
+
+			while (resultSet.next()) {
+				employee = new Employee();
+				employee.setEmpId(resultSet.getInt("emp_id"));
+				employee.setEmpName(resultSet.getString("emp_name"));
+				employee.setGender(resultSet.getInt("gender"));
+				employee.setBirthday(resultSet.getString("birthday"));
+				employee.setDepartment(new Department(null, resultSet.getString("dept_name")));
+
+				employees.add(employee);
+			}
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			DBManager.close(connection);
 			DBManager.close(preparedStatement);
 			DBManager.close(resultSet);
@@ -91,31 +91,31 @@ public class EmployeeDAO {
 		 * TODO 以下に実装する
 		 */
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		
+
 		Employee employee = null;
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
-		
+
 		try {
 			connection = DBManager.getConnection();
 			preparedStatement = connection.prepareStatement(SQL_FIND_BY_DEPTID);
 			preparedStatement.setString(1, inputDeptId);
 			resultSet = preparedStatement.executeQuery();
-			
-				while(resultSet.next()) {
-					employee = new Employee();
-					employee.setEmpId(resultSet.getInt("emp_id"));
-					employee.setEmpName(resultSet.getString("emp_name"));
-					employee.setGender(resultSet.getInt("gender"));
-					employee.setBirthday(resultSet.getString("birthday"));
-					employee.setDepartment(new Department(null, resultSet.getString("dept_name")));
-					
-					employees.add(employee);
-				}
-		}catch(Exception e) {
+
+			while (resultSet.next()) {
+				employee = new Employee();
+				employee.setEmpId(resultSet.getInt("emp_id"));
+				employee.setEmpName(resultSet.getString("emp_name"));
+				employee.setGender(resultSet.getInt("gender"));
+				employee.setBirthday(resultSet.getString("birthday"));
+				employee.setDepartment(new Department(null, resultSet.getString("dept_name")));
+
+				employees.add(employee);
+			}
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			DBManager.close(connection);
 			DBManager.close(preparedStatement);
 			DBManager.close(resultSet);
