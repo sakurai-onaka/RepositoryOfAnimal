@@ -34,25 +34,25 @@ public class EmployeeDAO {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
-		
+
 		try {
 			connection = DBManager.getConnection();
 			preparedStatement = connection.prepareStatement(SQL_FIND_ALL);
 			resultSet = preparedStatement.executeQuery();
-			
-				while(resultSet.next()) {
-					employee = new Employee();
-					employee.setEmpId(resultSet.getInt("emp_id"));
-					employee.setEmpName(resultSet.getString("emp_name"));
-					employee.setGender(resultSet.getInt("gender"));
-					employee.setBirthday(resultSet.getString("birthday"));
-					employee.setDepartment(new Department(null, resultSet.getString("dept_name")));
-					
-					employees.add(employee);
-				}
-		}catch(Exception e) {
+
+			while (resultSet.next()) {
+				employee = new Employee();
+				employee.setEmpId(resultSet.getInt("emp_id"));
+				employee.setEmpName(resultSet.getString("emp_name"));
+				employee.setGender(resultSet.getInt("gender"));
+				employee.setBirthday(resultSet.getString("birthday"));
+				employee.setDepartment(new Department(null, resultSet.getString("dept_name")));
+
+				employees.add(employee);
+			}
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			DBManager.close(connection);
 			DBManager.close(preparedStatement);
 			DBManager.close(resultSet);
@@ -70,7 +70,36 @@ public class EmployeeDAO {
 	 */
 	public List<Employee> findByEmployeeName(String searchName) throws ClassNotFoundException, SQLException {
 		List<Employee> employees = new ArrayList<>();
-		//TODO 以下に実装する
+		/**
+		 * TODO 以下に実装する
+		 */
+		Employee employee = null;
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+
+		try {
+			connection = DBManager.getConnection();
+			preparedStatement = connection.prepareStatement(SQL_FIND_BY_EMP_NAME);
+			preparedStatement.setString(1, "%" + searchName + "%");
+			resultSet = preparedStatement.executeQuery();
+
+			while (resultSet.next()) {
+				employee = new Employee();
+				employee.setEmpId(resultSet.getInt("emp_id"));
+				employee.setEmpName(resultSet.getString("emp_name"));
+				employee.setGender(resultSet.getInt("gender"));
+				employee.setBirthday(resultSet.getString("birthday"));
+				employee.setDepartment(new Department(null, resultSet.getString("dept_name")));
+				employees.add(employee);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBManager.close(connection);
+			DBManager.close(preparedStatement);
+			DBManager.close(resultSet);
+		}
 
 		return employees;
 	}
@@ -83,12 +112,6 @@ public class EmployeeDAO {
 	 * @throws ClassNotFoundException ドライバクラスが存在しない場合に送出
 	 * @throws SQLException データベース操作時にエラーが発生した場合に送出
 	 */
-	public List<Employee> findByDeptId(int deptId) throws ClassNotFoundException, SQLException {
-		List<Employee> employees = new ArrayList<>();
-		//TODO 以下に実装する
-
-		return employees;
-	}
 
 	/**
 	 * 登録
