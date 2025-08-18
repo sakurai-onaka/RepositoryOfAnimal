@@ -2,8 +2,6 @@ package jp.co.sss.crud.db;
 
 import static jp.co.sss.crud.util.ConstantSQL.*;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -119,8 +117,6 @@ public class EmployeeDAO {
 		/**
 		 * TODO 以下に実装する
 		 */
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
 		Employee employee = null;
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -129,7 +125,7 @@ public class EmployeeDAO {
 		try {
 			connection = DBManager.getConnection();
 			preparedStatement = connection.prepareStatement(SQL_FIND_BY_DEPTID);
-			preparedStatement.setString(1, inputDeptId);
+			preparedStatement.setInt(1, deptId);
 			resultSet = preparedStatement.executeQuery();
 
 			while (resultSet.next()) {

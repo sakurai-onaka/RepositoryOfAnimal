@@ -71,7 +71,7 @@ public class MainSystem01NonValid {
 				/**
 				 * メニュー番号の入力
 				 */
-				String menuNoStr = null;
+				String menuNoStr = br.readLine();
 				menuNo = Integer.parseInt(menuNoStr);
 
 				/**
@@ -123,9 +123,10 @@ public class MainSystem01NonValid {
 					/**
 					 * TODO 以下に実装する
 					 */
+					System.out.println("社員ID\t社員名\t性別\t生年月日\t部署名");
+					String input = br.readLine();
+					inputDeptId = Integer.parseInt(input);
 					try {
-						String input = br.readLine();
-						inputDeptId = Integer.parseInt(input);
 						employees = employeeDAO.findByDeptId(inputDeptId);
 						
 						for(Employee emp : employees) {
