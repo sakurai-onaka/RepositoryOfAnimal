@@ -2,6 +2,7 @@ package jp.co.sss.crud.main;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.List;
 
 import jp.co.sss.crud.db.EmployeeDAO;
 import jp.co.sss.crud.dto.Department;
@@ -35,20 +36,28 @@ public class MainSystem01NonValid {
 	 *
 	 */
 	public static void main(String[] args) {
-		//コンソール入力準備
+		/**
+		 * コンソール入力準備
+		 */
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-		//エンティティ
+		/**
+		 * エンティティ
+		 */
 		Employee employee = new Employee();
 		Department department = new Department();
 
-		//データベースアクセス
+		/**
+		 * データベースアクセス
+		 */
 		EmployeeDAO employeeDAO = new EmployeeDAO();
 
 		int menuNo = 0;
 		try {
 			do {
-				// メニューの表示
+				/**
+				 * メニューの表示
+				 */
 				System.out.println("=== 社員管理システム ===");
 				System.out.println("1. 全件表示");
 				System.out.println("2. 社員名検索");
@@ -59,16 +68,32 @@ public class MainSystem01NonValid {
 				System.out.println("7. 終了");
 				System.out.print("メニュー番号を入力してください:");
 
-				// メニュー番号の入力
+				/**
+				 * メニュー番号の入力
+				 */
 				String menuNoStr = br.readLine();
 				menuNo = Integer.parseInt(menuNoStr);
 
-				// 機能の呼出
+				/**
+				 * 機能の呼出
+				 */
 				switch (menuNo) {
 				case 1:
 					System.out.println("社員ID\t社員名\t性別\t生年月日\t部署名");
-					//TODO 以下に実装する
-
+					/**
+					 * TODO 以下に実装する
+					 */
+					List<Employee> employees;
+					
+					try {
+						employees = employeeDAO.findAll();
+						
+						for(Employee emp : employees) {
+							System.out.println(emp);
+						}
+					}catch(Exception e) {
+						e.printStackTrace();
+					}
 					break;
 
 				case 2:

@@ -2,11 +2,14 @@ package jp.co.sss.crud.db;
 
 import static jp.co.sss.crud.util.ConstantSQL.*;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.co.sss.crud.dto.Department;
 import jp.co.sss.crud.dto.Employee;
 
 /**
@@ -24,8 +27,36 @@ public class EmployeeDAO {
 	 */
 	public List<Employee> findAll() throws ClassNotFoundException, SQLException {
 		List<Employee> employees = new ArrayList<>();
-		//TODO 以下に実装する
-
+		/**
+		 * TODO 以下に実装する
+		 */
+		Employee employee = null;
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		
+		try {
+			connection = DBManager.getConnection();
+			preparedStatement = connection.prepareStatement(SQL_FIND_ALL);
+			resultSet = preparedStatement.executeQuery();
+			
+				while(resultSet.next()) {
+					employee = new Employee();
+					employee.setEmpId(resultSet.getInt("emp_id"));
+					employee.setEmpName(resultSet.getString("emp_name"));
+					employee.setGender(resultSet.getInt("gender"));
+					employee.setBirthday(resultSet.getString("birthday"));
+					employee.setDepartment(new Department(null, resultSet.getString("dept_name")));
+					
+					employees.add(employee);
+				}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBManager.close(connection);
+			DBManager.close(preparedStatement);
+			DBManager.close(resultSet);
+		}
 		return employees;
 	}
 
