@@ -144,9 +144,9 @@ public class MainSystem01NonValid {
 					System.out.print("性別(1:男性, 2:女性):");
 					emp.setGender(Integer.parseInt(br.readLine()));
 					System.out.print("生年月日(西暦年/月/日):");
-					inputDate = br.readLine();
+					emp.setBirthday(br.readLine());
 					System.out.print("部署ID(1:営業部、2:経理部、3:総務部):");
-					inputDeptId = Integer.parseInt(br.readLine());
+					emp.setDepartment(new Department(Integer.parseInt(br.readLine()),null));
 					
 
 					break;
