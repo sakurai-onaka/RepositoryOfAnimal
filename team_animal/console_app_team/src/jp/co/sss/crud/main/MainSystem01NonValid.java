@@ -98,8 +98,21 @@ public class MainSystem01NonValid {
 
 				case 2:
 					System.out.print("社員名を入力してください:");
-					//TODO 以下に実装する
-
+					/**
+					 * TODO 以下に実装する
+					 */
+					String inputEmpName = br.readLine();
+					System.out.println("社員ID\t社員名\t性別\t生年月日\t部署名");
+					try {
+						employees = employeeDAO.findByEmployeeName(inputEmpName);
+						
+						for(Employee emp : employees) {
+							System.out.println(emp);
+						}
+					}catch(Exception e) {
+						e.printStackTrace();
+					}
+					
 					break;
 
 				case 3:
