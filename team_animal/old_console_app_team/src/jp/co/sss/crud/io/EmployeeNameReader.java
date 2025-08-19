@@ -40,7 +40,7 @@ public class EmployeeNameReader {
 			/**
 			 * 空白かつnull判定
 			 */
-			if(pattern.matcher(inputString).matches() | Objects.isNull(inputString)){
+			if(!(pattern.matcher(inputString).matches() | Objects.isNull(inputString))){
 				return true;
 			}
 		}
