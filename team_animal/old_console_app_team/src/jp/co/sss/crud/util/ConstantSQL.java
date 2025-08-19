@@ -24,7 +24,7 @@ public class ConstantSQL {
 	public static final String SQL_INSERT = "";
 
 	/** 更新 */
-	public static final String SQL_UPDATE = "";
+	public static final String SQL_UPDATE = "UPDATE employee SET emp_name = ?, gender = ?, birthday = ?, dept_id = ? WHERE emp_id = ?";
 
 	/** 削除 */
 	public static final String SQL_DELETE = "";
