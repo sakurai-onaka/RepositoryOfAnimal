@@ -139,7 +139,9 @@ public class MainSystem01NonValid {
 					break;
 
 				case 4:
-					//TODO 以下に実装する
+					/**
+					 * TODO 以下に実装する
+					 */
 					Employee emp = new Employee();
 					System.out.print("社員名:");
 					emp.setEmpName(br.readLine());
@@ -149,7 +151,7 @@ public class MainSystem01NonValid {
 					emp.setBirthday(br.readLine());
 					System.out.print("部署ID(1:営業部、2:経理部、3:総務部):");
 					emp.setDepartment(new Department(Integer.parseInt(br.readLine()),null));
-					
+					employeeDAO.insert(emp);
 
 					break;
 
@@ -172,10 +174,14 @@ public class MainSystem01NonValid {
 					break;
 
 				case 6:
-					//TODO 以下に実装する
+					/**
+					 * TODO 以下に実装する
+					 */
 
 					System.out.print("削除する社員の社員IDを入力してください:");
-
+					input = br.readLine();
+					inputDeptId = Integer.parseInt(input);
+					employeeDAO.delete(inputDeptId);
 					break;
 
 				}

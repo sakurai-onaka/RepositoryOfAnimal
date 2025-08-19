@@ -163,8 +163,30 @@ public class EmployeeDAO {
 	 * @throws SQLException データベース操作時にエラーが発生した場合に送出
 	 */
 	public void insert(Employee employee) throws ClassNotFoundException, SQLException {
-		//TODO 以下に実装する
-		
+		/**
+		 * TODO 以下に実装する
+		 */
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+			connection = DBManager.getConnection();
+			preparedStatement = connection.prepareStatement(SQL_INSERT);
+			preparedStatement.setString(1, employee.getEmpName());
+			preparedStatement.setInt(2, employee.getGender());
+			preparedStatement.setString(3, employee.getBirthday());
+			preparedStatement.setInt(4, employee.getDepartment().getDeptId());
+			int cnt = preparedStatement.executeUpdate();
+			if(cnt == 1){
+				System.out.println("社員情報を登録しました");
+			}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				DBManager.close(connection);
+				DBManager.close(preparedStatement);
+			}
 	}
 
 	/**
@@ -331,7 +353,29 @@ public class EmployeeDAO {
 	 * @throws SQLException データベース操作時にエラーが発生した場合に送出
 	 */
 	public void delete(Integer empId) throws ClassNotFoundException, SQLException {
-		//TODO 以下に実装する
+		/**
+		 * TODO 以下に実装する
+		 */
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+			connection = DBManager.getConnection();
+			preparedStatement = connection.prepareStatement(SQL_DELETE);
+			preparedStatement.setInt(1, empId);
+			int cnt = preparedStatement.executeUpdate();
+			if(cnt >= 1){
+				System.out.println("社員情報を削除しました");
+			}else{
+				System.out.println("対象者がいませんでした");
+			}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				DBManager.close(connection);
+				DBManager.close(preparedStatement);
+			}
 
 	}
 
