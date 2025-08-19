@@ -1,6 +1,8 @@
 package jp.co.sss.crud.io;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
  * 部署IDのコンソール入力をするクラス
@@ -13,6 +15,15 @@ public class DeptIdReader {
 	 * @throws IllegalArgumentException 不正な入力の場合にスローされる
 	 */
 	public Integer input() throws IOException, IllegalArgumentException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		Integer inputNumber = 0;
+		String inputString = br.readLine();
+		
+		if(isValid(inputString)) {
+			inputNumber = Integer.parseInt(inputString);
+		}else {
+			throw new IllegalArgumentException("1以上3以下の整数を入力してください");
+		}
 		return null;
 	}
 
@@ -21,6 +32,7 @@ public class DeptIdReader {
 	 * @return 文字列が適正な値であった場合true、そうでない場合はfalseを返す
 	 */
 	public boolean isValid(String inputString) {
+		inputString.matches("^[1-3１-３]{1}$");
 		return false;//1-3までの整数かどうかをチェック
 	}
 

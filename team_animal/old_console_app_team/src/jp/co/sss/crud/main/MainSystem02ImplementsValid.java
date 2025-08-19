@@ -2,6 +2,7 @@ package jp.co.sss.crud.main;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 import jp.co.sss.crud.db.EmployeeDAO;
 import jp.co.sss.crud.dto.Department;
@@ -56,16 +57,30 @@ public class MainSystem02ImplementsValid {
 
 			try {
 
-				//TODO メニュー番号の入力
+				/**
+				 * TODO メニュー番号の入力
+				 */
 
 				// 機能の呼出
 				switch (menuNo) {
 
-				case 1: //全件検索
-					/*全件検索処理はMainSystem01NonValidと同一である。*/
-
+				case 1: /**
+						全件検索
+						*/
+					//全件検索処理はMainSystem01NonValidと同一である。
+					
 					System.out.println("社員ID\t社員名\t性別\t生年月日\t部署名");
-
+					List<Employee> employees;
+					
+					try {
+						employees = employeeDAO.findAll();
+						
+						for(Employee emp : employees) {
+							System.out.println(emp);
+						}
+					}catch(Exception e) {
+						e.printStackTrace();
+					}
 					break;
 
 				case 2://社員名検索
