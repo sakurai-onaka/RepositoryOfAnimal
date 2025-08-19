@@ -68,13 +68,19 @@ public class MainSystem02ImplementsValid {
 				 */
 				MenuNoReader menuNoReader = new MenuNoReader();
 				menuNo = menuNoReader.input();
-				
-				EmployeeNameReader employeeNameReader = null;
-				EmployeeIdReader employeeIdReader = null;
-				EmployeeGenderReader employeeGenderReader = null;
-				EmployeeBirthdayReader employeeBirthdayReader = null;
-				DeptIdReader deptIdReader = null;
-				
+
+				EmployeeNameReader employeeNameReader = new EmployeeNameReader();
+				EmployeeIdReader employeeIdReader = new EmployeeIdReader();
+				EmployeeGenderReader employeeGenderReader = new EmployeeGenderReader();
+				EmployeeBirthdayReader employeeBirthdayReader = new EmployeeBirthdayReader();
+				DeptIdReader deptIdReader = new DeptIdReader();
+
+				int empNo = 0;
+				String empName = null;
+				int empGender = 0;
+				String empBirthday = null;
+				int empDeptIdReader = 0;
+
 				// 機能の呼出
 				switch (menuNo) {
 
@@ -82,17 +88,17 @@ public class MainSystem02ImplementsValid {
 						全件検索
 						*/
 					//全件検索処理はMainSystem01NonValidと同一である。
-					
+
 					System.out.println("社員ID\t社員名\t性別\t生年月日\t部署名");
 					List<Employee> employees;
-					
+
 					try {
 						employees = employeeDAO.findAll();
-						
-						for(Employee emp : employees) {
+
+						for (Employee emp : employees) {
 							System.out.println(emp);
 						}
-					}catch(Exception e) {
+					} catch (Exception e) {
 						e.printStackTrace();
 					}
 					break;
@@ -100,18 +106,17 @@ public class MainSystem02ImplementsValid {
 				case 2://社員名検索
 						//TODO 以下に実装する
 					System.out.print("社員名を入力してください:");
-					
-					employeeNameReader = new EmployeeNameReader();
-					String empName = employeeNameReader.input();
-					
+
+					empName = employeeNameReader.input();
+
 					System.out.println("社員ID\t社員名\t性別\t生年月日\t部署名");
 					try {
 						employees = employeeDAO.findByEmployeeName(empName);
-						
-						for(Employee emp : employees) {
+
+						for (Employee emp : employees) {
 							System.out.println(emp);
 						}
-					}catch(Exception e) {
+					} catch (Exception e) {
 						e.printStackTrace();
 					}
 
@@ -120,64 +125,72 @@ public class MainSystem02ImplementsValid {
 				case 3://部署ID検索
 						//TODO 以下に実装する
 					System.out.print("部署ID(1：営業部、2：経理部、3：総務部)を入力してください: ");
-					employeeIdReader = new EmployeeIdReader();
 					int empId = employeeIdReader.input();
 
 					try {
 						employees = employeeDAO.findByDeptId(empId);
-						
-						for(Employee emp : employees) {
+
+						for (Employee emp : employees) {
 							System.out.println(emp);
 						}
-					}catch(Exception e) {
+					} catch (Exception e) {
 						e.printStackTrace();
 					}
 					break;
 
 				case 4:// 登録機能
 						//TODO 以下に実装する
-					employeeNameReader = new EmployeeNameReader();
 					System.out.print("社員名:");
-					String InsertempName = employeeNameReader.input();
-					employeeGenderReader = new EmployeeGenderReader();
+					empName = employeeNameReader.input();
 					System.out.print("性別(0:回答しない, 1:男性, 2:女性, 9:その他):");
-					int InsertGender = employeeGenderReader.input();
-					employeeBirthdayReader = new EmployeeBirthdayReader();
+					empGender = employeeGenderReader.input();
 					System.out.print("生年月日(西暦年/月/日):");
-					String InsertBirthday = employeeBirthdayReader.input();
-					deptIdReader = new DeptIdReader();
+					empBirthday = employeeBirthdayReader.input();
 					System.out.print("部署ID(1:営業部、2:経理部、3:総務部):");
-					int InsertDeptIdReader = deptIdReader.input();
+					empDeptIdReader = deptIdReader.input();
 
-					employeeDAO.insert(emp);
-					
+					employee = new Employee(null, empName, empGender, empBirthday,
+							new Department(empDeptIdReader, null));
+						employeeDAO.insert(employee);
+	
+
+
 					break;
 
 				case 5:// 更新機能
 						//TODO 以下に実装する
 
 					System.out.print("更新する社員の社員IDを入力してください:");
-					System.out.print("社員名:");
+					empName = employeeNameReader.input();
 					System.out.print("性別(0:回答しない, 1:男性, 2:女性, 9:その他):");
+					empGender = employeeGenderReader.input();
 					System.out.print("生年月日(西暦年/月/日):");
+					empBirthday = employeeBirthdayReader.input();
 					System.out.print("部署ID(1:営業部、2:経理部、3:総務部):");
+					empDeptIdReader = deptIdReader.input();
+					employee = new Employee(null, empName, empGender, empBirthday,
+							new Department(empDeptIdReader, null));
+
+						employeeDAO.update(employee);
 
 					break;
 
 				case 6://削除機能
 						//TODO 以下に実装する
-
 					System.out.print("削除する社員の社員IDを入力してください:");
-
+					empNo = employeeIdReader.input();
+					employeeDAO.delete(empNo);
+					
 					break;
 				}
 
 			} catch (IOException | ClassNotFoundException | SQLException e) {//case 1 全件検索を実装するとコンパイルエラーは解消する
 				//TODO 以下に実装する
-
+				System.out.println("システムエラーが発生しました");
+				e.printStackTrace();
 			} catch (IllegalArgumentException e) {
 				//TODO 以下に実装する
-
+				System.out.println(e.getMessage());
 			}
 		} while (menuNo != 7);
 		System.out.println("システムを終了します。");
