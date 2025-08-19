@@ -182,7 +182,7 @@ public class EmployeeDAO {
 		
 		try {
 			connection = DBManager.getConnection();
-			preparedStatement = connection.prepareStatement(SQL_DELETE);
+			preparedStatement = connection.prepareStatement(SQL_UPDATE);
 			
 			System.out.print("更新する社員の社員IDを入力してください:");
 			int empId = Integer.parseInt(br.readLine());
@@ -202,7 +202,13 @@ public class EmployeeDAO {
 			preparedStatement.setInt(4, dept_id);
 			
 			int cnt = preparedStatement.executeUpdate();
+			
+			if(cnt != 0) {
 			System.out.println("社員情報を更新しました。");
+			}else {
+				System.out.println("対象者がいませんでした");
+			}
+			
 		}catch (Exception e) {
 			e.printStackTrace();
 		} finally {
