@@ -2,8 +2,6 @@ package jp.co.sss.crud.db;
 
 import static jp.co.sss.crud.util.ConstantSQL.*;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -133,7 +131,8 @@ public class EmployeeDAO {
 			preparedStatement = connection.prepareStatement(SQL_FIND_BY_DEPTID);
 			preparedStatement.setInt(1, deptId);
 			resultSet = preparedStatement.executeQuery();
-
+			
+			int count = 0;
 			while (resultSet.next()) {
 				employee = new Employee();
 				employee.setEmpId(resultSet.getInt("emp_id"));
@@ -143,9 +142,13 @@ public class EmployeeDAO {
 				employee.setDepartment(new Department(null, resultSet.getString("dept_name")));
 
 				employees.add(employee);
+				count++;
+			}
+			if(count == 0) {
+				System.out.println("該当する社員は存在しません。");
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			e.printStackTrace();	
 		} finally {
 			DBManager.close(connection);
 			DBManager.close(preparedStatement);
@@ -198,7 +201,6 @@ public class EmployeeDAO {
 	 */
 	public void update(Employee employee) throws ClassNotFoundException, SQLException {
 		//TODO 以下に実装する
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		
@@ -206,22 +208,11 @@ public class EmployeeDAO {
 			connection = DBManager.getConnection();
 			preparedStatement = connection.prepareStatement(SQL_UPDATE);
 			
-			System.out.print("更新する社員の社員IDを入力してください:");
-			int empId = Integer.parseInt(br.readLine());
-			System.out.print("社員名:");
-			String empName = br.readLine();
-			System.out.print("性別(0:回答しない, 1:男性, 2:女性, 9:その他):");
-			int gender = Integer.parseInt(br.readLine());
-			System.out.print("生年月日(西暦年/月/日):");
-			String birthday = br.readLine();
-			System.out.print("部署ID(1:営業部、2:経理部、3:総務部):");
-			int dept_id = Integer.parseInt(br.readLine());
-			
-			preparedStatement.setInt(5, empId);
-			preparedStatement.setString(1, empName);
-			preparedStatement.setInt(2, gender);
-			preparedStatement.setString(3, birthday);
-			preparedStatement.setInt(4, dept_id);
+			preparedStatement.setInt(5, employee.getEmpId());
+			preparedStatement.setString(1, employee.getEmpName());
+			preparedStatement.setInt(2, employee.getGender());
+			preparedStatement.setString(3, employee.getBirthday());
+			preparedStatement.setInt(4, employee.getDepartment().getDeptId());
 			
 			int cnt = preparedStatement.executeUpdate();
 			
