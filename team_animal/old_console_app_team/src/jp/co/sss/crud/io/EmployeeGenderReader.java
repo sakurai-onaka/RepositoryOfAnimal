@@ -1,6 +1,8 @@
 package jp.co.sss.crud.io;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
  * 性別のコンソール入力をするクラス
@@ -13,7 +15,14 @@ public class EmployeeGenderReader {
 	 * @throws IllegalArgumentException 不正な入力の場合にスローされる
 	 */
 	public Integer input() throws IOException, IllegalArgumentException {
-		return null;
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String inputString = br.readLine();
+
+		if(isValid(inputString)) {
+			return Integer.parseInt(inputString);
+		}else {
+			throw new IllegalArgumentException("0,1,2,9のいずれかの整数を入力してください。");
+		}
 	}
 
 	/**
@@ -21,7 +30,7 @@ public class EmployeeGenderReader {
 	 * @return 文字列が適正な値であった場合true、そうでない場合はfalseを返す
 	 */
 	public boolean isValid(String inputString) {
-		return false;//0,1,2,9の整数かどうかを判定
+		return inputString.matches("^|[0129０１２９]{1}$");//0,1,2,9の整数かどうかを判定
 	}
 
 }
