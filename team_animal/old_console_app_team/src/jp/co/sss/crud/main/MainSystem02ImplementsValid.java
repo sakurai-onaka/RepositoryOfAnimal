@@ -7,6 +7,12 @@ import java.util.List;
 import jp.co.sss.crud.db.EmployeeDAO;
 import jp.co.sss.crud.dto.Department;
 import jp.co.sss.crud.dto.Employee;
+import jp.co.sss.crud.io.DeptIdReader;
+import jp.co.sss.crud.io.EmployeeBirthdayReader;
+import jp.co.sss.crud.io.EmployeeGenderReader;
+import jp.co.sss.crud.io.EmployeeIdReader;
+import jp.co.sss.crud.io.EmployeeNameReader;
+import jp.co.sss.crud.io.MenuNoReader;
 
 /**
  * 社員管理システム実行用クラス
@@ -60,7 +66,15 @@ public class MainSystem02ImplementsValid {
 				/**
 				 * TODO メニュー番号の入力
 				 */
-
+				MenuNoReader menuNoReader = new MenuNoReader();
+				menuNo = menuNoReader.input();
+				
+				EmployeeNameReader employeeNameReader = null;
+				EmployeeIdReader employeeIdReader = null;
+				EmployeeGenderReader employeeGenderReader = null;
+				EmployeeBirthdayReader employeeBirthdayReader = null;
+				DeptIdReader deptIdReader = null;
+				
 				// 機能の呼出
 				switch (menuNo) {
 
@@ -86,23 +100,57 @@ public class MainSystem02ImplementsValid {
 				case 2://社員名検索
 						//TODO 以下に実装する
 					System.out.print("社員名を入力してください:");
+					
+					employeeNameReader = new EmployeeNameReader();
+					String empName = employeeNameReader.input();
+					
+					System.out.println("社員ID\t社員名\t性別\t生年月日\t部署名");
+					try {
+						employees = employeeDAO.findByEmployeeName(empName);
+						
+						for(Employee emp : employees) {
+							System.out.println(emp);
+						}
+					}catch(Exception e) {
+						e.printStackTrace();
+					}
 
 					break;
 
 				case 3://部署ID検索
 						//TODO 以下に実装する
 					System.out.print("部署ID(1：営業部、2：経理部、3：総務部)を入力してください: ");
+					employeeIdReader = new EmployeeIdReader();
+					int empId = employeeIdReader.input();
 
+					try {
+						employees = employeeDAO.findByDeptId(empId);
+						
+						for(Employee emp : employees) {
+							System.out.println(emp);
+						}
+					}catch(Exception e) {
+						e.printStackTrace();
+					}
 					break;
 
 				case 4:// 登録機能
 						//TODO 以下に実装する
-
+					employeeNameReader = new EmployeeNameReader();
 					System.out.print("社員名:");
+					String InsertempName = employeeNameReader.input();
+					employeeGenderReader = new EmployeeGenderReader();
 					System.out.print("性別(0:回答しない, 1:男性, 2:女性, 9:その他):");
+					int InsertGender = employeeGenderReader.input();
+					employeeBirthdayReader = new EmployeeBirthdayReader();
 					System.out.print("生年月日(西暦年/月/日):");
+					String InsertBirthday = employeeBirthdayReader.input();
+					deptIdReader = new DeptIdReader();
 					System.out.print("部署ID(1:営業部、2:経理部、3:総務部):");
+					int InsertDeptIdReader = deptIdReader.input();
 
+					employeeDAO.insert(emp);
+					
 					break;
 
 				case 5:// 更新機能
