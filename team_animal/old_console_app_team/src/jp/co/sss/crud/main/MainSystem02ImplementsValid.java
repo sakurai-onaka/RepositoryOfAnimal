@@ -178,6 +178,8 @@ public class MainSystem02ImplementsValid {
 
 					System.out.print("更新する社員の社員IDを入力してください:");
 					empNo = employeeIdReader.input();
+					System.out.print("社員名:");
+					empName = employeeNameReader.input();
 					System.out.print("性別(0:回答しない, 1:男性, 2:女性, 9:その他):");
 					empGender = employeeGenderReader.input();
 					System.out.print("生年月日(西暦年/月/日):");
