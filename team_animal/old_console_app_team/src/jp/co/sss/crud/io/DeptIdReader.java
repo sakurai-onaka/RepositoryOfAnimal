@@ -18,6 +18,10 @@ public class DeptIdReader {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		String inputString = br.readLine();
 		
+		if(inputString == null || inputString.isBlank()) {
+			return null;
+		}
+		
 		if(isValid(inputString)) {
 			return Integer.parseInt(inputString);
 		}else {

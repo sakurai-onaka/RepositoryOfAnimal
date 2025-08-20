@@ -19,6 +19,11 @@ public class EmployeeBirthdayReader {
 	public String input() throws IOException, IllegalArgumentException{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		String inputString = br.readLine();
+		
+		if(inputString == null || inputString.isBlank()) {
+			return null;
+		}
+		
 		if(isValid(inputString)) {
 			return inputString;
 		}else {

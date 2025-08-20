@@ -3,8 +3,6 @@ package jp.co.sss.crud.io;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Objects;
-import java.util.regex.Pattern;
 
 /**
  * 性別のコンソール入力をするクラス
@@ -19,6 +17,10 @@ public class EmployeeGenderReader {
 	public Integer input() throws IOException, IllegalArgumentException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		String inputString = br.readLine();
+		
+		if(inputString == null || inputString.isBlank()) {
+			return null;
+		}
 
 		if(isValid(inputString)) {
 			return Integer.parseInt(inputString);
@@ -32,12 +34,12 @@ public class EmployeeGenderReader {
 	 * @return 文字列が適正な値であった場合true、そうでない場合はfalseを返す
 	 */
 	public boolean isValid(String inputString) {
-		Pattern pattern = Pattern.compile("\\s*");
-		if(!(pattern.matcher(inputString).matches() | Objects.isNull(inputString))){
-			return inputString.matches("^|[0129０１２９]{1}$");
-		}else {
-			return false;
-		}
+		//Pattern pattern = Pattern.compile("\\s*");
+		//if(!(pattern.matcher(inputString).matches() | Objects.isNull(inputString))){
+			return inputString.matches("^[0129０１２９]{1}$");
+		//}else {
+		//	return false;
+		
 	}
 
 }

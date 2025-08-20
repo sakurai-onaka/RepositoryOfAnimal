@@ -242,7 +242,32 @@ public class EmployeeDAO {
 	 */
 	public void updateOptional(Employee employee) throws ClassNotFoundException, SQLException {
 		//TODO 以下に実装する
-
+		
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+				
+		try {
+			String sql = buildSQL(employee);
+			connection = DBManager.getConnection();
+			preparedStatement = connection.prepareStatement(sql);
+			bindParameter(sql, employee, preparedStatement);
+					
+			int cnt = preparedStatement.executeUpdate();
+			
+		if(cnt != 0) {
+			System.out.println("社員情報を更新しました。");
+			}else {
+				System.out.println("対象者がいませんでした");
+			}
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBManager.close(connection);
+			DBManager.close(preparedStatement);
+			
+		}
+		
 	}
 
 	/**

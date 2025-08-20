@@ -18,6 +18,7 @@ public class EmployeeIdReader {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		String inputString = br.readLine();
 		
+		
 		if(isValid(inputString)) {
 			return Integer.parseInt(inputString);
 		}else {

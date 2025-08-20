@@ -84,9 +84,9 @@ public class MainSystem02ImplementsValid {
 
 				int empNo = 0;
 				String empName = null;
-				int empGender = 0;
+				Integer empGender = 0;
 				String empBirthday = null;
-				int empDeptIdReader = 0;
+				Integer empDeptIdReader = 0;
 
 				/**
 				 * 機能の呼出
@@ -186,10 +186,10 @@ public class MainSystem02ImplementsValid {
 					empBirthday = employeeBirthdayReader.input();
 					System.out.print("部署ID(1:営業部、2:経理部、3:総務部):");
 					empDeptIdReader = deptIdReader.input();
-					employee = new Employee(null, empName, empGender, empBirthday,
+					employee = new Employee(empNo, empName, empGender, empBirthday,
 							new Department(empDeptIdReader, null));
 
-						employeeDAO.update(employee);
+						employeeDAO.updateOptional(employee);
 
 					break;
 
