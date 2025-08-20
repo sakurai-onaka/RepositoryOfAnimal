@@ -3,6 +3,8 @@ package jp.co.sss.crud.io;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Objects;
+import java.util.regex.Pattern;
 
 /**
  * 性別のコンソール入力をするクラス
@@ -30,7 +32,12 @@ public class EmployeeGenderReader {
 	 * @return 文字列が適正な値であった場合true、そうでない場合はfalseを返す
 	 */
 	public boolean isValid(String inputString) {
-		return inputString.matches("^|[0129０１２９]{1}$");//0,1,2,9の整数かどうかを判定
+		Pattern pattern = Pattern.compile("\\s*");
+		if(!(pattern.matcher(inputString).matches() | Objects.isNull(inputString))){
+			return inputString.matches("^|[0129０１２９]{1}$");
+		}else {
+			return false;
+		}
 	}
 
 }
