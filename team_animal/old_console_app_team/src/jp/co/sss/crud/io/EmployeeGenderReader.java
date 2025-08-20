@@ -21,7 +21,7 @@ public class EmployeeGenderReader {
 		if(isValid(inputString)) {
 			return Integer.parseInt(inputString);
 		}else {
-			throw new IllegalArgumentException("0,1,2,9のいずれかの整数を入力してください。");
+			throw new IllegalArgumentException("0,1,2,9の整数を入力してください。");
 		}
 	}
 

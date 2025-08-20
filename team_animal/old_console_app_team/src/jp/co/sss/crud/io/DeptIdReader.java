@@ -16,15 +16,13 @@ public class DeptIdReader {
 	 */
 	public Integer input() throws IOException, IllegalArgumentException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		Integer inputNumber = 0;
 		String inputString = br.readLine();
 		
 		if(isValid(inputString)) {
-			inputNumber = Integer.parseInt(inputString);
+			return Integer.parseInt(inputString);
 		}else {
 			throw new IllegalArgumentException("1以上3以下の整数を入力してください");
 		}
-		return null;
 	}
 
 	/**
@@ -32,8 +30,7 @@ public class DeptIdReader {
 	 * @return 文字列が適正な値であった場合true、そうでない場合はfalseを返す
 	 */
 	public boolean isValid(String inputString) {
-		inputString.matches("^[1-3１-３]{1}$");
-		return false;//1-3までの整数かどうかをチェック
+		return inputString.matches("^[1-3１-３]{1}$");//1-3までの整数かどうかをチェック
 	}
 
 }

@@ -80,6 +80,7 @@ public class MainSystem02ImplementsValid {
 				EmployeeGenderReader employeeGenderReader = new EmployeeGenderReader();
 				EmployeeBirthdayReader employeeBirthdayReader = new EmployeeBirthdayReader();
 				DeptIdReader deptIdReader = new DeptIdReader();
+				
 
 				int empNo = 0;
 				String empName = null;
@@ -136,10 +137,10 @@ public class MainSystem02ImplementsValid {
 						*TODO 以下に実装する
 						*/
 					System.out.print("部署ID(1：営業部、2：経理部、3：総務部)を入力してください: ");
-					int empId = employeeIdReader.input();
+					empDeptIdReader = deptIdReader.input();
 
 					try {
-						employees = employeeDAO.findByDeptId(empId);
+						employees = employeeDAO.findByDeptId(empDeptIdReader);
 
 						for (Employee emp : employees) {
 							System.out.println(emp);
@@ -176,7 +177,7 @@ public class MainSystem02ImplementsValid {
 						*/
 
 					System.out.print("更新する社員の社員IDを入力してください:");
-					empName = employeeNameReader.input();
+					empNo = employeeIdReader.input();
 					System.out.print("性別(0:回答しない, 1:男性, 2:女性, 9:その他):");
 					empGender = employeeGenderReader.input();
 					System.out.print("生年月日(西暦年/月/日):");
