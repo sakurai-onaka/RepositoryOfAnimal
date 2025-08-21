@@ -247,13 +247,15 @@ public class EmployeeDAO {
 		PreparedStatement preparedStatement = null;
 				
 		try {
+			int cnt = 0;
 			String sql = buildSQL(employee);
-			connection = DBManager.getConnection();
-			preparedStatement = connection.prepareStatement(sql);
-			bindParameter(sql, employee, preparedStatement);
+			if(sql != null) {
+				connection = DBManager.getConnection();
+				preparedStatement = connection.prepareStatement(sql);
+				bindParameter(sql, employee, preparedStatement);
 					
-			int cnt = preparedStatement.executeUpdate();
-			
+				cnt = preparedStatement.executeUpdate();
+			}
 		if(cnt != 0) {
 			System.out.println("社員情報を更新しました。");
 			}else {
