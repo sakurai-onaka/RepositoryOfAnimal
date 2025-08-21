@@ -542,6 +542,7 @@ public class EmployeeDAO {
 		preparedStatement = connection.prepareStatement(sql);
 		preparedStatement.setInt(1, empId);
 		resultSet = preparedStatement.executeQuery();
+		resultSet.next();
 		return resultSet.getInt("authority_id");
 	}
 }

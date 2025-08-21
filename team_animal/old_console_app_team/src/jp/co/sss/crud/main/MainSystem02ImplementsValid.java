@@ -59,31 +59,56 @@ public class MainSystem02ImplementsValid {
 		 * データベースアクセス
 		 */
 		EmployeeDAO employeeDAO = new EmployeeDAO();
-		
-		loginCheck.loginInput();
+
+		try {
+			loginCheck.loginInput();
+		} catch (IllegalArgumentException | ClassNotFoundException | IOException | SQLException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
 
 		int menuNo = 0;
 		do {
 			/**
 			 * メニューの表示
 			 */
-			System.out.println("=== 社員管理システム ===");
-			System.out.println("1. 全件表示");
-			System.out.println("2. 社員名検索");
-			System.out.println("3. 部署ID検索");
-			System.out.println("4. 登録");
-			System.out.println("5. 更新");
-			System.out.println("6. 削除");
-			System.out.println("7. 終了");
-			System.out.print("メニュー番号を入力してください:");
-
 			try {
-
+				if (MainSystem02ImplementsValid.loginUserAuthority == 1) {
+					System.out.println("=== 社員管理システム ===");
+					System.out.println("1. 全件表示");
+					System.out.println("2. 社員名検索");
+					System.out.println("3. 部署ID検索");
+					System.out.println("7. 終了");
+					System.out.print("メニュー番号を入力してください:");
+				} else {
+					System.out.println("=== 社員管理システム ===");
+					System.out.println("1. 全件表示");
+					System.out.println("2. 社員名検索");
+					System.out.println("3. 部署ID検索");
+					System.out.println("4. 登録");
+					System.out.println("5. 更新");
+					System.out.println("6. 削除");
+					System.out.println("7. 終了");
+					System.out.print("メニュー番号を入力してください:");
+				}
 				/**
 				 * TODO メニュー番号の入力
 				 */
 				MenuNoReader menuNoReader = new MenuNoReader();
 				menuNo = menuNoReader.input();
+				/*
+				 * 一般権限者が4,5,6を入力できないようにする
+				 */
+				if (MainSystem02ImplementsValid.loginUserAuthority == 1) {
+					switch (menuNo) {
+					case 4:
+					case 5:
+					case 6:
+						menuNo = 0;
+						break;
+					}
+
+				}
 
 				EmployeeNameReader employeeNameReader = new EmployeeNameReader();
 				EmployeeIdReader employeeIdReader = new EmployeeIdReader();
