@@ -51,8 +51,11 @@ public class MainSystem01NonValid {
 		 * データベースアクセス
 		 */
 		EmployeeDAO employeeDAO = new EmployeeDAO();
-
+		
+		int checkEmId = 0;
+	    String password = null;
 		int menuNo = 0;
+		String result = null;
 		try {
 			do {
 				/**

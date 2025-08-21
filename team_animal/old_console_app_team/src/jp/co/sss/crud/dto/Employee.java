@@ -7,6 +7,8 @@ public class Employee {
 	private Integer gender;
 	private String birthday;
 	private Department department;
+	private String password;
+	private EmpAuthority empAuthority;
 
 	/**
 	 *
@@ -21,12 +23,14 @@ public class Employee {
 	 * @param birthday
 	 * @param department
 	 */
-	public Employee(Integer empId, String empName, Integer gender, String birthday, Department department) {
+	public Employee(Integer empId, String empName, Integer gender, String birthday, Department department, String password, EmpAuthority empAuthority) {
 		this.empId = empId;
 		this.empName = empName;
 		this.gender = gender;
 		this.birthday = birthday;
 		this.department = department;
+		this.password = password;
+		this.empAuthority = empAuthority;
 	}
 
 	/**
@@ -99,6 +103,22 @@ public class Employee {
 		this.department = department;
 	}
 
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public EmpAuthority getEmpAuthority() {
+		return empAuthority;
+	}
+
+	public void setEmpAuthority(EmpAuthority empAuthority) {
+		this.empAuthority = empAuthority;
+	}
+
 	@Override
 	public String toString() {
 		String gender_ja = "";
@@ -113,7 +133,7 @@ public class Employee {
 		}
 
 		return empId + "\t" + empName + "\t" + gender_ja + "\t" + birthday
-				+ "\t" + department.getDeptName();
+				+ "\t" + department.getDeptName() + "\t" + password + "\t" + empAuthority.getEmpAuthority();
 	}
 
 }
