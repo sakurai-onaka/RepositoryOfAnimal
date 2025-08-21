@@ -426,5 +426,38 @@ public class EmployeeDAO {
 		}
 		return result;
 	}
+	
+	/**
+	 * 社員情報を1件削除する
+	 * <br>引数のEmployeeの社員IDから社員を論理削除する。
+	 * @param empId 
+	 * @throws ClassNotFoundException ドライバクラスが存在しない場合に送出
+	 * @throws SQLException データベース操作時にエラーが発生した場合に送出
+	 */
+	public void deleteByFlag(Integer empId) throws ClassNotFoundException, SQLException {
+		/**
+		 * TODO 以下に実装する
+		 */
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
 
+		try {
+			connection = DBManager.getConnection();
+			preparedStatement = connection.prepareStatement(SQL_DELETE_BY_FLAG);
+			preparedStatement.setInt(1, empId);
+			int cnt = preparedStatement.executeUpdate();
+			if(cnt >= 1){
+				System.out.println("社員情報を削除しました");
+			}else{
+				System.out.println("対象者がいませんでした");
+			}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				DBManager.close(connection);
+				DBManager.close(preparedStatement);
+			}
+
+	}
 }
