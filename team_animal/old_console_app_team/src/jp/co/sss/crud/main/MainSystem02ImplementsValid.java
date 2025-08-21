@@ -59,7 +59,10 @@ public class MainSystem02ImplementsValid {
 		 * データベースアクセス
 		 */
 		EmployeeDAO employeeDAO = new EmployeeDAO();
-
+		
+		/*
+		 * ログインチェック
+		 */
 		try {
 			loginCheck.loginInput();
 		} catch (IllegalArgumentException | ClassNotFoundException | IOException | SQLException e) {

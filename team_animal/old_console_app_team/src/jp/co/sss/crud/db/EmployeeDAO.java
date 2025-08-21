@@ -506,7 +506,14 @@ public class EmployeeDAO {
 
 	}
 
-
+	/**
+	 * ログインのチェックする
+	 * @param empId
+	 * @param password
+	 * @return
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public boolean login(int empId, String password) throws ClassNotFoundException, SQLException{
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -532,7 +539,11 @@ public class EmployeeDAO {
 		}
 		return false;
 	}
-	
+
+
+	/*
+	 * 権限のチェックを行う
+	 */
 	public Integer checkAuthority(Integer empId) throws ClassNotFoundException, SQLException{
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
