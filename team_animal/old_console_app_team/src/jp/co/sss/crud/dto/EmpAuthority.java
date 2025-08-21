@@ -1,37 +1,37 @@
 package jp.co.sss.crud.dto;
 
 public class EmpAuthority {
-	private int authorityId;
-	private EmpAuthority empAuthority;
-	
-	public EmpAuthority(){
+	private Integer authorityId;
+	private String authorityName;
+
+	public EmpAuthority() {
 	}
-	
-	public EmpAuthority(int authorityId, EmpAuthority empAuthority){
+
+	public EmpAuthority(Integer authorityId, String authorityName) {
+		super();
 		this.authorityId = authorityId;
-		this.empAuthority = empAuthority;
+		this.authorityName = authorityName;
 	}
-	
-	public int getAuthorityId() {
+
+	public Integer getAuthorityId() {
 		return authorityId;
 	}
-	
+
 	public void setAuthorityId(int authorityId) {
 		this.authorityId = authorityId;
 	}
-	
-	public EmpAuthority getEmpAuthority() {
-		return empAuthority;
+
+	public String getAuthorityName() {
+		return authorityName;
 	}
-	
-	public void setEmpAuthority(EmpAuthority empAuthority) {
-		this.empAuthority = empAuthority;
+
+	public void setAuthorityName(String authorityName) {
+		this.authorityName = authorityName;
 	}
 
 	@Override
 	public String toString() {
-		return authorityId + "\t" + empAuthority.getEmpAuthority() + "\t";
+		return "EmpAuthority [authorityId=" + authorityId + "authorityName=" + authorityName + "]";
 	}
-	
-	
+
 }

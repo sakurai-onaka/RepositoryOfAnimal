@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jp.co.sss.crud.dto.Department;
+import jp.co.sss.crud.dto.EmpAuthority;
 import jp.co.sss.crud.dto.Employee;
 
 
@@ -51,6 +52,7 @@ public class EmployeeDAO {
 				employee.setGender(resultSet.getInt("gender"));
 				employee.setBirthday(resultSet.getString("birthday"));
 				employee.setDepartment(new Department(null, resultSet.getString("dept_name")));
+				employee.setEmpAuthority(new EmpAuthority(null, resultSet.getString("authority_name")));
 
 				employees.add(employee);
 			}
@@ -64,6 +66,48 @@ public class EmployeeDAO {
 		return employees;
 	}
 
+	/**
+	 * 権限による全件表示
+	 *
+	 * @return {@code List<Employee>} 全社員エンティティリスト
+	 * @throws ClassNotFoundException ドライバクラスが存在しない場合に送出
+	 * @throws SQLException データベース操作時にエラーが発生した場合に送出
+	 */
+	public List<Employee> findAllByAuthority() throws ClassNotFoundException, SQLException {
+		List<Employee> employees = new ArrayList<>();
+		/**
+		 * TODO 以下に実装する
+		 */
+		Employee employee = null;
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+
+		try {
+			connection = DBManager.getConnection();
+			preparedStatement = connection.prepareStatement(SQL_FIND_ALL);
+			resultSet = preparedStatement.executeQuery();
+
+			while (resultSet.next()) {
+				employee = new Employee();
+				employee.setEmpId(resultSet.getInt("emp_id"));
+				employee.setEmpName(resultSet.getString("emp_name"));
+				employee.setDepartment(new Department(null, resultSet.getString("dept_name")));
+				employee.setEmpAuthority(new EmpAuthority(null, resultSet.getString("authority_name")));
+
+				employees.add(employee);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBManager.close(connection);
+			DBManager.close(preparedStatement);
+			DBManager.close(resultSet);
+		}
+		return employees;
+	}
+	
+	
 	/**
 	 * 社員名検索
 	 * 
@@ -95,6 +139,7 @@ public class EmployeeDAO {
 				employee.setGender(resultSet.getInt("gender"));
 				employee.setBirthday(resultSet.getString("birthday"));
 				employee.setDepartment(new Department(null, resultSet.getString("dept_name")));
+				employee.setEmpAuthority(new EmpAuthority(null, resultSet.getString("authority_name")));
 				employees.add(employee);
 			}
 		} catch (Exception e) {
@@ -140,7 +185,7 @@ public class EmployeeDAO {
 				employee.setGender(resultSet.getInt("gender"));
 				employee.setBirthday(resultSet.getString("birthday"));
 				employee.setDepartment(new Department(null, resultSet.getString("dept_name")));
-
+				employee.setEmpAuthority(new EmpAuthority(null, resultSet.getString("authority_name")));
 				employees.add(employee);
 				count++;
 			}
@@ -179,6 +224,8 @@ public class EmployeeDAO {
 			preparedStatement.setInt(2, employee.getGender());
 			preparedStatement.setString(3, employee.getBirthday());
 			preparedStatement.setInt(4, employee.getDepartment().getDeptId());
+			preparedStatement.setString(5, employee.getPassword());
+			preparedStatement.setInt(6, employee.getEmpAuthority().getAuthorityId());
 			int cnt = preparedStatement.executeUpdate();
 			if(cnt == 1){
 				System.out.println("社員情報を登録しました");
@@ -304,6 +351,21 @@ public class EmployeeDAO {
 			sqlBuilder.append(" dept_id = ?,");
 			shouldUpdate = true;
 		}
+		
+		/**
+		 * 追加機能
+		 */
+		
+		if (employee.getPassword() != null) {
+			sqlBuilder.append(" password = ?,");
+			shouldUpdate = true;
+		}
+		
+
+		if (employee.getEmpAuthority().getAuthorityId() != null) {
+			sqlBuilder.append(" authority_id = ?,");
+			shouldUpdate = true;
+		}
 
 		//変更点がない場合はnullを戻す
 		if (!shouldUpdate) {
@@ -355,6 +417,20 @@ public class EmployeeDAO {
 		if (updateSQL.contains("dept_id")) {
 			// 部署IDをバインド
 			preparedStatement.setInt(paramIndex, employee.getDepartment().getDeptId());
+			paramIndex++;
+		}
+		
+		/**
+		 * 追加機能
+		 */
+		if (updateSQL.contains("password")) {
+			preparedStatement.setString(paramIndex, employee.getEmpName());
+			paramIndex++;
+		}
+		
+		if (updateSQL.contains("authority_id")) {
+			// 部署IDをバインド
+			preparedStatement.setInt(paramIndex, employee.getEmpAuthority().getAuthorityId());
 			paramIndex++;
 		}
 

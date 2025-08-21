@@ -1,5 +1,7 @@
 package jp.co.sss.crud.dto;
 
+import jp.co.sss.crud.main.MainSystem02ImplementsValid;
+
 public class Employee {
 
 	private Integer empId;
@@ -132,8 +134,12 @@ public class Employee {
 			gender_ja = "その他";
 		}
 
-		return empId + "\t" + empName + "\t" + gender_ja + "\t" + birthday
-				+ "\t" + department.getDeptName() + "\t" + password + "\t" + empAuthority.getEmpAuthority();
+		if(MainSystem02ImplementsValid.loginUserAuthority == 1) {
+			return empId + "\t" + empName + "\t" + department.getDeptName();
+		}else {
+			return empId + "\t" + empName + "\t" + gender_ja + "\t" + birthday
+					+ "\t" + department.getDeptName() + "\t" + empAuthority.getAuthorityName();	
+		}
 	}
 
 }

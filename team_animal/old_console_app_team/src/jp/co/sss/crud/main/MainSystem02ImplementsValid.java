@@ -6,18 +6,25 @@ import java.util.List;
 
 import jp.co.sss.crud.db.EmployeeDAO;
 import jp.co.sss.crud.dto.Department;
+import jp.co.sss.crud.dto.EmpAuthority;
 import jp.co.sss.crud.dto.Employee;
+import jp.co.sss.crud.io.AuthorityIdReader;
 import jp.co.sss.crud.io.DeptIdReader;
 import jp.co.sss.crud.io.EmployeeBirthdayReader;
 import jp.co.sss.crud.io.EmployeeGenderReader;
 import jp.co.sss.crud.io.EmployeeIdReader;
 import jp.co.sss.crud.io.EmployeeNameReader;
+import jp.co.sss.crud.io.EmployeePasswordReader;
 import jp.co.sss.crud.io.MenuNoReader;
 
 /**
  * 社員管理システム実行用クラス
  */
 public class MainSystem02ImplementsValid {
+	/**
+	 * ログイン者の権限を保持
+	 */
+	public static int loginUserAuthority = 9;
 
 	/**
 	 * メイン処理02
@@ -80,24 +87,32 @@ public class MainSystem02ImplementsValid {
 				EmployeeGenderReader employeeGenderReader = new EmployeeGenderReader();
 				EmployeeBirthdayReader employeeBirthdayReader = new EmployeeBirthdayReader();
 				DeptIdReader deptIdReader = new DeptIdReader();
-				
+				AuthorityIdReader authIdReader = new AuthorityIdReader();
+				EmployeePasswordReader empPassReader = new EmployeePasswordReader();
 
 				int empNo = 0;
 				String empName = null;
 				Integer empGender = 0;
 				String empBirthday = null;
 				Integer empDeptIdReader = 0;
+				Integer empAuthId = 0;
+				String empPass = null;
 
 				/**
 				 * 機能の呼出
 				 */
 				switch (menuNo) {
 
-				case 1: /**
-						 *全件検索
-						 *全件検索処理はMainSystem01NonValidと同一である。
-						 */
-					System.out.println("社員ID\t社員名\t性別\t生年月日\t部署名");
+				case 1:
+					/**
+					 *全件検索
+					 *全件検索処理はMainSystem01NonValidと同一である。
+					 */
+					if (MainSystem02ImplementsValid.loginUserAuthority == 1) {
+						System.out.println("社員ID\t社員名\t部署名");
+					} else {
+						System.out.println("社員ID\t社員名\t性別\t生年月日\t部署名\t権限名");
+					}
 					List<Employee> employees;
 
 					try {
@@ -111,15 +126,20 @@ public class MainSystem02ImplementsValid {
 					}
 					break;
 
-				case 2:/**
-						*社員名検索
-						TODO 以下に実装する
-						*/
+				case 2:
+					/**
+					*社員名検索
+					TODO 以下に実装する
+					*/
 					System.out.print("社員名を入力してください:");
 
 					empName = employeeNameReader.input();
 
-					System.out.println("社員ID\t社員名\t性別\t生年月日\t部署名");
+					if (MainSystem02ImplementsValid.loginUserAuthority == 1) {
+						System.out.println("社員ID\t社員名\t部署名");
+					} else {
+						System.out.println("社員ID\t社員名\t性別\t生年月日\t部署名\t権限名");
+					}
 					try {
 						employees = employeeDAO.findByEmployeeName(empName);
 
@@ -132,12 +152,18 @@ public class MainSystem02ImplementsValid {
 
 					break;
 
-				case 3:/**
-						*部署ID検索
-						*TODO 以下に実装する
-						*/
+				case 3:
+					/**
+					*部署ID検索
+					*TODO 以下に実装する
+					*/
 					System.out.print("部署ID(1：営業部、2：経理部、3：総務部)を入力してください: ");
 					empDeptIdReader = deptIdReader.input();
+					if (MainSystem02ImplementsValid.loginUserAuthority == 1) {
+						System.out.println("社員ID\t社員名\t部署名");
+					} else {
+						System.out.println("社員ID\t社員名\t性別\t生年月日\t部署名\t権限名");
+					}
 
 					try {
 						employees = employeeDAO.findByDeptId(empDeptIdReader);
@@ -150,10 +176,11 @@ public class MainSystem02ImplementsValid {
 					}
 					break;
 
-				case 4:/**
-						*登録機能
-						*TODO 以下に実装する
-						*/
+				case 4:
+					/**
+					*登録機能
+					*TODO 以下に実装する
+					*/
 					System.out.print("社員名:");
 					empName = employeeNameReader.input();
 					System.out.print("性別(0:回答しない, 1:男性, 2:女性, 9:その他):");
@@ -162,19 +189,22 @@ public class MainSystem02ImplementsValid {
 					empBirthday = employeeBirthdayReader.input();
 					System.out.print("部署ID(1:営業部、2:経理部、3:総務部):");
 					empDeptIdReader = deptIdReader.input();
+					System.out.print("パスワード:");
+					empPass = empPassReader.input();
+					System.out.print("権限:");
+					empAuthId = authIdReader.input();
 
 					employee = new Employee(null, empName, empGender, empBirthday,
-							new Department(empDeptIdReader, null));
-						employeeDAO.insert(employee);
-	
-
+							new Department(empDeptIdReader, null), empPass, new EmpAuthority(empAuthId, null));
+					employeeDAO.insert(employee);
 
 					break;
 
-				case 5:/**
-						*更新機能
-						*TODO 以下に実装する
-						*/
+				case 5:
+					/**
+					*更新機能
+					*TODO 以下に実装する
+					*/
 
 					System.out.print("更新する社員の社員IDを入力してください:");
 					empNo = employeeIdReader.input();
@@ -186,21 +216,26 @@ public class MainSystem02ImplementsValid {
 					empBirthday = employeeBirthdayReader.input();
 					System.out.print("部署ID(1:営業部、2:経理部、3:総務部):");
 					empDeptIdReader = deptIdReader.input();
+					System.out.print("パスワード:");
+					empPass = empPassReader.input();
+					System.out.print("権限:");
+					empAuthId = authIdReader.input();
 					employee = new Employee(empNo, empName, empGender, empBirthday,
-							new Department(empDeptIdReader, null));
+							new Department(empDeptIdReader, null), empPass, new EmpAuthority(empAuthId, null));
 
-						employeeDAO.updateOptional(employee);
+					employeeDAO.updateOptional(employee);
 
 					break;
 
-				case 6:/**
-						*削除機能
-						* TODO 以下に実装する
-						*/
+				case 6:
+					/**
+					*削除機能
+					* TODO 以下に実装する
+					*/
 					System.out.print("削除する社員の社員IDを入力してください:");
 					empNo = employeeIdReader.input();
-					employeeDAO.delete(empNo);
-					
+					employeeDAO.deleteByFlag(empNo);
+
 					break;
 				}
 
