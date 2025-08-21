@@ -472,37 +472,6 @@ public class EmployeeDAO {
 			}
 		
 	}
-	
-	public String loginCheck(int empId, String password) throws ClassNotFoundException, SQLException{
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
-		ResultSet resultSet = null;
-		String result = null;
-		
-		try {
-			connection = DBManager.getConnection();
-			String sql = "SELECT * FROM employee WHERE authority_id = ? AND password = ?";
-			preparedStatement = connection.prepareStatement(sql);
-			
-			preparedStatement.setInt(1, empId);
-			preparedStatement.setString(2, password);
-			
-			resultSet = preparedStatement.executeQuery();
-			
-			if(resultSet == null) {
-				result = null;
-			}
-			
-		}catch(Exception e) {
-			e.printStackTrace();
-		}finally {
-			DBManager.close(resultSet);
-			DBManager.close(connection);
-			DBManager.close(preparedStatement);
-		}
-		return result;
-	}
-	
 	/**
 	 * 社員情報を1件削除する
 	 * <br>引数のEmployeeの社員IDから社員を論理削除する。
@@ -535,5 +504,44 @@ public class EmployeeDAO {
 				DBManager.close(preparedStatement);
 			}
 
+	}
+
+
+	public boolean login(int empId, String password) throws ClassNotFoundException, SQLException{
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		
+		try {
+			connection = DBManager.getConnection();
+			String sql = "SELECT * FROM employee WHERE emp_id = ? AND password = ?";
+			preparedStatement = connection.prepareStatement(sql);
+			
+			preparedStatement.setInt(1, empId);
+			preparedStatement.setString(2, password);
+			
+			resultSet = preparedStatement.executeQuery();
+			return resultSet.next();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBManager.close(resultSet);
+			DBManager.close(connection);
+			DBManager.close(preparedStatement);
+		}
+		return false;
+	}
+	
+	public Integer checkAuthority(Integer empId) throws ClassNotFoundException, SQLException{
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		String sql = "SELECT authority_id FROM employee WHERE emp_id = ?";
+		connection = DBManager.getConnection();
+		preparedStatement = connection.prepareStatement(sql);
+		preparedStatement.setInt(1, empId);
+		resultSet = preparedStatement.executeQuery();
+		return resultSet.getInt("authority_id");
 	}
 }

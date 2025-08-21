@@ -16,6 +16,7 @@ import jp.co.sss.crud.io.EmployeeIdReader;
 import jp.co.sss.crud.io.EmployeeNameReader;
 import jp.co.sss.crud.io.EmployeePasswordReader;
 import jp.co.sss.crud.io.MenuNoReader;
+import jp.co.sss.crud.io.loginCheck;
 
 /**
  * 社員管理システム実行用クラス
@@ -58,6 +59,8 @@ public class MainSystem02ImplementsValid {
 		 * データベースアクセス
 		 */
 		EmployeeDAO employeeDAO = new EmployeeDAO();
+		
+		loginCheck.loginInput();
 
 		int menuNo = 0;
 		do {
